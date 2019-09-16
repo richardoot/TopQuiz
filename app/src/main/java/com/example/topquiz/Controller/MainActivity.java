@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
         if(m_preferences.getAll().size() != 0){
                 m_inputName.setVisibility(View.GONE);
                 m_btn.setEnabled(true);
-                m_message.setText("Hey " + m_preferences.getAll().get(PREF_KEY_NAME) + " la dernière fois t'as fais " + m_preferences.getAll().get(PREF_KEY_SCORE) + " point(s) est-ce que tu feras mieux cette fois ?");
+                m_message.setText("Hey "
+                                + m_preferences.getAll().get(PREF_KEY_NAME)
+                                + " la dernière fois t'as fais " + m_preferences.getAll().get(PREF_KEY_SCORE)
+                                + " point(s) est-ce que tu feras mieux cette fois ?");
         }
 
         //Mise en place Listener sur l'input
