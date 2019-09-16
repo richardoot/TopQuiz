@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Controller.GameActivity">
+
+    <TextView
+        android:id="@+id/game_activity_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:text="@string/strQuestion"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/game_activity_btn1"
+        android:layout_width="170dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="100dp"
+        android:text="Button"
+        app:layout_constraintEnd_toStartOf="@+id/game_activity_btn2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_activity_question" />
+
+    <Button
+        android:id="@+id/game_activity_btn3"
+        android:layout_width="170dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="24dp"
+        android:text="Button"
+        app:layout_constraintEnd_toStartOf="@+id/game_activity_btn4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_activity_btn1" />
+
+    <Button
+        android:id="@+id/game_activity_btn4"
+        android:layout_width="170dp"
+        android:layout_height="95dp"
+        android:text="Button"
+        app:layout_constraintBaseline_toBaselineOf="@+id/game_activity_btn3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/game_activity_btn3" />
+
+    <Button
+        android:id="@+id/game_activity_btn2"
+        android:layout_width="170dp"
+        android:layout_height="95dp"
+        android:text="Button"
+        app:layout_constraintBaseline_toBaselineOf="@+id/game_activity_btn1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/game_activity_btn1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
