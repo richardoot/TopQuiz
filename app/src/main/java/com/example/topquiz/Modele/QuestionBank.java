@@ -14,13 +14,17 @@ public class QuestionBank {
         }
 
     //Getteurs
+        public Question getQuestion() {
 
-    public Question getQuestion() {
+            if(m_nextQuestion == m_questionList.size()){
+                m_nextQuestion = 0;
+            }
 
-        if(m_nextQuestion == m_questionList.size()){
-            m_nextQuestion = 0;
+            return m_questionList.get(m_nextQuestion++);
         }
 
-        return m_questionList.get(m_nextQuestion++);
-    }
+    //Setteurs
+        public void setNextQuestion(int nextQuestion) {
+            m_nextQuestion = nextQuestion;
+        }
 }

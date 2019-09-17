@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        System.out.println("MainActivity::onCreate()");
+
         //Référencement graphique
             m_inputName = (EditText) findViewById(R.id.main_activity_input);
             m_btn = (Button) findViewById(R.id.main_activity_btn);
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         //Désactiver le bouton
             m_btn.setEnabled(false);
 
-        //Vérifier si l'utilisateur a déjaà fait une partie
+        //Vérifier si l'utilisateur a déjà fait une partie
             Map<String,?> mapPreferences = m_preferences.getAll();
             Log.i("DEBUG", "OUI IL A DEJA FAIT UNE PARTIE !" + m_preferences.getAll());
 
@@ -115,5 +117,63 @@ public class MainActivity extends AppCompatActivity {
 
             m_preferences.edit().putInt(PREF_KEY_SCORE, score).apply();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        System.out.println("MainActivity::onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        System.out.println("MainActivity::onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        System.out.println("MainActivity::onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        System.out.println("MainActivity::onStop()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        System.out.println("MainActivity::onRestart()");
+
+        //Vérifier si l'utilisateur a déjà fait une partie
+        Map<String,?> mapPreferences = m_preferences.getAll();
+        Log.i("DEBUG", "OUI IL A DEJA FAIT UNE PARTIE !" + m_preferences.getAll());
+
+
+        Log.i("DEBUG", "Pseudo:: " + m_preferences.getAll().get(PREF_KEY_NAME));
+
+
+        if(m_preferences.getAll().size() != 0){
+            m_inputName.setVisibility(View.GONE);
+            m_message.setText("Aller "
+                    + m_preferences.getAll().get(PREF_KEY_NAME)
+                    + " tu peux faire plus que " + m_preferences.getAll().get(PREF_KEY_SCORE)
+                    + " point(s)!");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        System.out.println("MainActivity::onDestroy()");
     }
 }

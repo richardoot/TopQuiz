@@ -1,13 +1,18 @@
 package com.example.topquiz.Controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,11 +38,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         private QuestionBank m_questionBank;
         private Question m_currentQuestion;
 
+        private int m_maxNumberQuestion;
         private int m_numberOfQuestions;
         private int m_score;
 
+        private boolean m_enableTouchEvent;
+
     //Constantes
-        public static final String  BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE";
+    public static final String  BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE";
+    public static final String  BUNDLE_STATE_SCORE = "currentScore";
+    public static final String  BUNDLE_STATE_QUESTION  = "currentQuestion";
 
 
 
@@ -46,6 +56,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        System.out.println("GameActivity::onCreate()");
 
         //Référencement des éléments graphiques
             m_question = (TextView) findViewById(R.id.game_activity_question);
@@ -61,11 +73,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             m_btn3.setTag(2);
             m_btn4.setTag(3);
 
+        //Initialiser le nombre question
+            m_maxNumberQuestion = 5;
+
+        //Vérifier que le bundle existe
+            if(savedInstanceState != null) {
+                m_score = savedInstanceState.getInt(BUNDLE_STATE_SCORE);
+                m_numberOfQuestions = savedInstanceState.getInt(BUNDLE_STATE_QUESTION);
+                System.out.println("Il y a une sauvegarde !! la val est de " + m_numberOfQuestions);
+            } else {
+                m_score = 0;
+                m_numberOfQuestions = m_maxNumberQuestion;
+                System.out.println("PAS DE sauvegarde !!");
+            }
+
         //Initialisationdes autres éléments
             m_questionBank = this.generateQuestions();
+            m_questionBank.setNextQuestion(m_maxNumberQuestion - m_numberOfQuestions);
             m_currentQuestion = m_questionBank.getQuestion();
-            m_numberOfQuestions = 5;
-            m_score = 0;
+            m_enableTouchEvent = true;
 
 
         //Afficher la question
@@ -73,7 +99,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         //Afficher les réponses
             this.displayAnswers(m_currentQuestion);
-
     }
 
     private QuestionBank generateQuestions(){
@@ -131,16 +156,43 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(this,"Wrong !", Toast.LENGTH_SHORT).show();
             }
 
-        //Passer à la nouvelle question
-            m_numberOfQuestions--;
+        //Désactiver les boutons
+            m_enableTouchEvent = false;
+        System.out.println("Nb questions : " + m_numberOfQuestions);
 
-            if(m_numberOfQuestions == 0){
-                //Fin du jeu
-                    endGame();
-            } else {
-                m_currentQuestion = m_questionBank.getQuestion();
-                this.displayAnswers(m_currentQuestion);
-            }
+        //Mise en place d'un timer
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                //Réactiver le bouton
+                    m_enableTouchEvent = true;
+
+                //Passer à la nouvelle question
+                    m_numberOfQuestions--;
+
+                    if(m_numberOfQuestions == 0){
+                        //Fin du jeu
+                            endGame();
+                    } else {
+                        //Afficher la question
+                            m_currentQuestion = m_questionBank.getQuestion();
+                            m_question.setText(m_currentQuestion.getQuestion());
+
+                        //Afficher les réponses
+                            displayAnswers(m_currentQuestion);
+                    }
+                }
+            }, 500);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        outState.putInt(BUNDLE_STATE_SCORE, m_score);
+        outState.putInt(BUNDLE_STATE_QUESTION, m_numberOfQuestions);
+
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     private void endGame(){
@@ -159,5 +211,56 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             })
             .create()
             .show();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return m_enableTouchEvent && super.dispatchTouchEvent(ev);
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        System.out.println("GameActivity::onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        System.out.println("GameActivity::onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        System.out.println("GameActivity::onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        System.out.println("GameActivity::onStop()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        System.out.println("GameActivity::onRestart()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        System.out.println("GameActivity::onDestroy()");
+
+
     }
 }
